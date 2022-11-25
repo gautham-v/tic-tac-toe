@@ -30,7 +30,7 @@ const Display = (() => {
     const btns = document.querySelectorAll('button');
     const init = () => {
         btns.forEach((btn)=>{
-            btn.addEventListener('click', addMark);
+            btn.addEventListener('click', player1.addMark);
         });
     };
     return {
@@ -81,30 +81,42 @@ const Gameboard = (() => {
     }
 })();
 
-function addMark(event){
-    //change text context
-    /* 
-    2. check which users's turn it is
-    3. find that user object's marker
-    4. apply user's marker to empty space
-    5. check for winning combination on the gameboard
-     */
-    if (event.target.innerHTML === '&nbsp;'){
-        event.target.innerHTML = 'O';
-    }
-    //update gameboard
-    Gameboard.update();
-    const gameover = Gameboard.checkForWinningCombo();
-    if (gameover){
-        alert('GAME OVER!');
-    }
-    // update gameboard object
-}
+// function addMark(event){
+//     //change text context
+//     /* 
+//     2. check which users's turn it is
+//     3. find that user object's marker
+//     4. apply user's marker to empty space
+//     5. check for winning combination on the gameboard
+//      */
+//     if (event.target.innerHTML === '&nbsp;'){
+//         event.target.innerHTML = 'O';
+//     }
+//     //update gameboard
+//     Gameboard.update();
+//     const gameover = Gameboard.checkForWinningCombo();
+//     if (gameover){
+//         alert('GAME OVER!');
+//     }
+//     // update gameboard object
+// }
 
 const Player = (name,marker) => {
     const getName = () => name;
     const getMarker = () => marker;
-    return {getName, getMarker};
+    const testHello = () => console.log('hello world');
+    const addMark = (event) => {
+        if (event.target.innerHTML === '&nbsp;'){
+            event.target.innerHTML = marker;
+        }
+        //update gameboard
+        Gameboard.update();
+        const gameover = Gameboard.checkForWinningCombo();
+        if (gameover){
+            alert('GAME OVER!');
+        }
+    };
+    return {getName, getMarker, testHello, addMark};
 };
 
 const player1 = Player('Gautham', 'X');
