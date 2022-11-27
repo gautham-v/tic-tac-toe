@@ -3,7 +3,35 @@ const Player = (name,marker) => {
     const getMarker = () => marker;
     name;
     marker;
+    return {getName, getMarker, name, marker};
+};
 
+const Display = (() => {
+
+    const p1Name = document.querySelector('#p1');
+    const p2Name = document.querySelector('#p2');
+    
+    const player1 = Player(p1Name.value, 'X');
+    const player2 = Player(p2Name.value, 'O');
+    let currentPlayer = player1;
+
+    const init = (event) => {
+        console.log('Game Started!');
+        event.preventDefault();
+        //Display.createPlayers();
+        btns.forEach((btn)=>{
+            btn.addEventListener('click', addMark);
+        });
+    };
+
+    const changeTurn = () => {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        }
+        else{
+            currentPlayer = player1;
+        }
+    }
     const addMark = (event) => {
         if (event.target.innerHTML === '&nbsp;'){
             event.target.innerHTML = currentPlayer.getMarker();
@@ -15,34 +43,14 @@ const Player = (name,marker) => {
             console.log('GAME OVER!');
         }
         else{
-            Display.changeTurn();
+            changeTurn();
         }
     };
 
-    const init = () => {
-        console.log('Game Started!');
-        
-        btns.forEach((btn)=>{
-            btn.addEventListener('click', addMark);
-        });
-    };
-    
-    return {getName, getMarker, addMark, name, marker, init};
-};
-
-const Display = (() => {
-
-    const changeTurn = () => {
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
-        }
-        else{
-            currentPlayer = player1;
-        }
-    }
     return {
-        //init,
-        changeTurn,
+        init,
+        player1,
+        player2
     }
 })();
 
@@ -50,7 +58,6 @@ const Gameboard = (() => {
     let gameboard = [];
 
     const update = () => {
-        //btns = Display.btns;
         gameboard = []
         btns.forEach(function(btn){
             gameboard.push(btn.textContent);
@@ -76,11 +83,11 @@ const Gameboard = (() => {
         winningCombos.forEach((item)=>{
             if (item.every(val => currentOpositions.includes(val))){
                 
-                console.log(`${player2.getName()} wins!!!`);
+                console.log(`${Display.player2.getName()} wins!!!`);
                 return true;
             }
             else if (item.every(val => currentXpositions.includes(val))){
-                console.log(`${player1.getName()} wins!!!`);
+                console.log(`${Display.player1.getName()} wins!!!`);
                 return true;
             }
         });
@@ -91,28 +98,13 @@ const Gameboard = (() => {
         return false;
     };
     return {
-        gameboard,
         update,
         checkForWinningCombo,
     }
 })();
 
 //game flow
-let player1 = {};
-let player2 = {};
-let currentPlayer = {};
 const playBtn = document.querySelector('.playBtn');
 const btns = document.querySelectorAll('.gameBtn');
 
-playBtn.addEventListener('click',createPlayers);
-
-function createPlayers(event) {
-    const p1Name = document.querySelector('#p1');
-    const p2Name = document.querySelector('#p2');
-    event.preventDefault();
-    
-    player1 = Player(p1Name.value, 'X');
-    player2 = Player(p2Name.value, 'O');
-    currentPlayer = player1;
-    currentPlayer.init();
-}
+playBtn.addEventListener('click',Display.init);
