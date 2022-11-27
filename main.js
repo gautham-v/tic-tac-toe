@@ -13,13 +13,13 @@ const Display = (() => {
     const playBtn = document.querySelector('.playBtn');
     const resetBtn = document.querySelector('.resetBtn');
     const btns = document.querySelectorAll('.gameBtn');
+    const result = document.querySelector('.result');
     
     const player1 = Player(p1Name.value, 'X');
     const player2 = Player(p2Name.value, 'O');
     let currentPlayer = player1;
 
     const init = (event) => {
-        console.log('Game Started!');
         event.preventDefault();
         btns.forEach((btn)=>{
             btn.addEventListener('click', addMark);
@@ -42,9 +42,7 @@ const Display = (() => {
         //update gameboard
         Gameboard.update();
         const gameover = Gameboard.checkForWinningCombo();
-        console.log(gameover);
         if (gameover){
-            console.log('GAME OVER!');
             btns.forEach((btn)=>{
                 btn.removeEventListener('click', addMark);
             });
@@ -59,8 +57,7 @@ const Display = (() => {
         }
     };
 
-    const reset = (event) => {
-        console.log('Game Reset!');
+    const reset = () => {
         btns.forEach((btn)=>{
             btn.innerHTML = '&nbsp;';
         });
@@ -74,6 +71,7 @@ const Display = (() => {
         player2,
         playBtn,
         btns,
+        result
     }
 })();
 
@@ -102,24 +100,33 @@ const Gameboard = (() => {
             }
             else if (gameboard[i] === 'X'){
                 currentXpositions.push(i);
+                console.log(currentXpositions);
             }
         }
         winningCombos.forEach((item)=>{
             if (item.every(val => currentOpositions.includes(val))){
+                console.log(`val: ${val}`);
+                console.log(`currentOpositions: ${currentOpositions}`);
                 console.log(`${Display.player2.getName()} wins!!!`);
+                Display.result.innerHTML = `${Display.player2.getName()} wins!!!`;
                 gameover = true;
             }
             else if (item.every(val => currentXpositions.includes(val))){
+                //console.log(`val: ${val}`);
+                console.log(`currentXpositions: ${currentXpositions}`);
                 console.log(`${Display.player1.getName()} wins!!!`);
+                Display.result.innerHTML = `${Display.player1.getName()} wins!!!`;
                 gameover = true;
             }
         });
-        if (currentOpositions.length + currentXpositions.length === 9){
+        if ((currentOpositions.length + currentXpositions.length === 9) && (gameover === false)){
             console.log('Tie Game!');
+            Display.result.innerHTML = `Tie Game!!!`;
             gameover = true;
         }
         return gameover;
     };
+
     return {
         update,
         checkForWinningCombo,
