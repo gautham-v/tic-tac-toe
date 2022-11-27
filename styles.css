@@ -86,6 +86,7 @@ form button {
     height: 300px;
     grid-row: 4 / 5;
     justify-self: center;
+    visibility: hidden;
 }
 
 .gameBtn{

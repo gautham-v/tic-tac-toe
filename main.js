@@ -12,6 +12,7 @@ const Game = (() => {
     const resetBtn = document.querySelector('.resetBtn');
     const btns = document.querySelectorAll('.gameBtn');
     const result = document.querySelector('.result');
+    const container = document.querySelector('.container');
     
     const player1 = Player(p1Name.value, 'X');
     const player2 = Player(p2Name.value, 'O');
@@ -145,12 +146,4 @@ const Gameboard = (() => {
 })();
 
 //game flow
-
-function play (){
-    if (container.style.display === 'none'){
-        Game.init();
-    }
-}
-const container = document.querySelector('.container');
-container.style.visibility = 'hidden';
 Game.playBtn.addEventListener('click',Game.validateForm);
