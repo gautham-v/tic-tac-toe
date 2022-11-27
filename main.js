@@ -18,7 +18,7 @@ const Game = (() => {
     const player2 = Player(p2Name.value, 'O');
     let currentPlayer = player1;
 
-    const init = (event) => {
+    const init = () => {
         container.style.visibility = 'visible';
         btns.forEach((btn)=>{
             btn.addEventListener('click', addMark);
