@@ -123,16 +123,16 @@ const Gameboard = (() => {
         }
         winningCombos.forEach((item)=>{
             if (item.every(val => currentOpositions.includes(val))){
-                Game.result.innerHTML = `${Game.player2.name} wins!!!`;
+                Game.result.innerHTML = `${Game.player2.name} wins! 🏆`;
                 gameover = true;
             }
             else if (item.every(val => currentXpositions.includes(val))){
-                Game.result.innerHTML = `${Game.player1.name} wins!!!`;
+                Game.result.innerHTML = `${Game.player1.name} wins! 🏆`;
                 gameover = true;
             }
         });
         if ((currentOpositions.length + currentXpositions.length === 9) && (gameover === false)){
-            Game.result.innerHTML = `Tie Game!!!`;
+            Game.result.innerHTML = `Tie Game. 🤝🏽`;
             gameover = true;
         }
         return gameover;

@@ -18,7 +18,7 @@ form {
     display: grid;
     grid-template-rows: 1fr 1fr 2fr;
     grid-template-columns: 1fr 1fr;
-    gap: 4px 10px;
+    gap: 4px 20px;
 }
 
 form label {
@@ -36,6 +36,12 @@ form > label:nth-child(3){
     grid-row: 1 / 2;
 }
 
+form input {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    color: #475569;
+}
+
 form div {
     margin: 10px;
     margin-left: 0px;
@@ -46,23 +52,30 @@ form div {
 }
 
 form button {
-    border: none;
+    border: 1px solid;
     background-color: #475569;
     color: #f8fafc;
+    border-radius: 6px;
 }
 
 .playBtn {
     background-color: #059669;
+    border-color: #059669;
 }
 
 .resetBtn {
     margin-left: 10px;
+    border-color: #475569;
 }
 
 .bigC p {
     justify-self: center;
     font-size: 30px;
     margin: 10px auto;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #059669;
 }
 
 .container{
