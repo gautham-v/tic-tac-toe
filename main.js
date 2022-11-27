@@ -1,9 +1,7 @@
 const Player = (name,marker) => {
-    const getName = () => name;
-    const getMarker = () => marker;
     name;
     marker;
-    return {getName, getMarker, name, marker};
+    return {name, marker};
 };
 
 const Game = (() => {
@@ -20,12 +18,26 @@ const Game = (() => {
     let currentPlayer = player1;
 
     const init = (event) => {
-        event.preventDefault();
+        container.style.visibility = 'visible';
         btns.forEach((btn)=>{
             btn.addEventListener('click', addMark);
         });
         resetBtn.addEventListener('click', reset);
+        player1.name = p1Name.value;
+        player2.name = p2Name.value;
     };
+
+    const validateForm = (event) => {
+        const form = document.querySelector('.form');
+        //const addBtn = document.querySelector('.addBtn')
+        form.checkValidity();
+        form.reportValidity();
+        if (form.reportValidity() === true){
+            event.preventDefault();
+            init(event);
+        }
+        return;
+    }
 
     const changeTurn = () => {
         if (currentPlayer === player1) {
@@ -37,7 +49,7 @@ const Game = (() => {
     }
     const addMark = (event) => {
         if (event.target.innerHTML === '&nbsp;'){
-            event.target.innerHTML = currentPlayer.getMarker();
+            event.target.innerHTML = currentPlayer.marker;
         }
         //update gameboard
         Gameboard.update();
@@ -47,17 +59,14 @@ const Game = (() => {
                 btn.removeEventListener('click', addMark);
             });
             playBtn.innerHTML = 'Play Again';
-            playBtn.addEventListener('click',reset);
-            if (resetBtn.parentNode != null){
-                resetBtn.parentNode.removeChild(resetBtn);
-            }
+            playBtn.addEventListener('click',playAgain);
         }
         else{
             changeTurn();
         }
     };
 
-    const reset = () => {
+    const playAgain = () => {
         btns.forEach((btn)=>{
             btn.innerHTML = '&nbsp;';
         });
@@ -66,13 +75,22 @@ const Game = (() => {
         Gameboard.update();
     }
 
+    const reset = () => {
+        p1Name.value = '';
+        p2Name.value = '';/* 
+        player1.name = p1Name.value;
+        player2.name = p2Name.value; */
+        playAgain();
+    }
+
     return {
         init,
         player1,
         player2,
         playBtn,
         btns,
-        result
+        result,
+        validateForm
     }
 })();
 
@@ -105,11 +123,11 @@ const Gameboard = (() => {
         }
         winningCombos.forEach((item)=>{
             if (item.every(val => currentOpositions.includes(val))){
-                Game.result.innerHTML = `${Game.player2.getName()} wins!!!`;
+                Game.result.innerHTML = `${Game.player2.name} wins!!!`;
                 gameover = true;
             }
             else if (item.every(val => currentXpositions.includes(val))){
-                Game.result.innerHTML = `${Game.player1.getName()} wins!!!`;
+                Game.result.innerHTML = `${Game.player1.name} wins!!!`;
                 gameover = true;
             }
         });
@@ -128,4 +146,17 @@ const Gameboard = (() => {
 
 //game flow
 
-Game.playBtn.addEventListener('click',Game.init);
+function play (){
+    
+
+    if (container.style.display === 'none'){
+        
+        Game.init();
+    }
+    // else {
+    //     container.style.display = 'none';
+    // }
+}
+const container = document.querySelector('.container');
+container.style.visibility = 'hidden';
+Game.playBtn.addEventListener('click',Game.validateForm);
