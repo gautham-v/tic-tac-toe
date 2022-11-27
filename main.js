@@ -77,9 +77,9 @@ const Game = (() => {
 
     const reset = () => {
         p1Name.value = '';
-        p2Name.value = '';/* 
-        player1.name = p1Name.value;
-        player2.name = p2Name.value; */
+        p2Name.value = '';
+        container.style.visibility = 'hidden';
+        playBtn.innerHTML = 'Play';
         playAgain();
     }
 
@@ -147,15 +147,9 @@ const Gameboard = (() => {
 //game flow
 
 function play (){
-    
-
     if (container.style.display === 'none'){
-        
         Game.init();
     }
-    // else {
-    //     container.style.display = 'none';
-    // }
 }
 const container = document.querySelector('.container');
 container.style.visibility = 'hidden';
