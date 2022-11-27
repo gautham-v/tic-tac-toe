@@ -6,7 +6,7 @@ const Player = (name,marker) => {
     return {getName, getMarker, name, marker};
 };
 
-const Display = (() => {
+const Game = (() => {
 
     const p1Name = document.querySelector('#p1');
     const p2Name = document.querySelector('#p2');
@@ -62,6 +62,7 @@ const Display = (() => {
             btn.innerHTML = '&nbsp;';
         });
         currentPlayer = player1;
+        result.innerHTML = '';
         Gameboard.update();
     }
 
@@ -80,7 +81,7 @@ const Gameboard = (() => {
 
     const update = () => {
         gameboard = []
-        Display.btns.forEach(function(btn){
+        Game.btns.forEach(function(btn){
             gameboard.push(btn.textContent);
         });
         return gameboard;
@@ -100,28 +101,20 @@ const Gameboard = (() => {
             }
             else if (gameboard[i] === 'X'){
                 currentXpositions.push(i);
-                console.log(currentXpositions);
             }
         }
         winningCombos.forEach((item)=>{
             if (item.every(val => currentOpositions.includes(val))){
-                console.log(`val: ${val}`);
-                console.log(`currentOpositions: ${currentOpositions}`);
-                console.log(`${Display.player2.getName()} wins!!!`);
-                Display.result.innerHTML = `${Display.player2.getName()} wins!!!`;
+                Game.result.innerHTML = `${Game.player2.getName()} wins!!!`;
                 gameover = true;
             }
             else if (item.every(val => currentXpositions.includes(val))){
-                //console.log(`val: ${val}`);
-                console.log(`currentXpositions: ${currentXpositions}`);
-                console.log(`${Display.player1.getName()} wins!!!`);
-                Display.result.innerHTML = `${Display.player1.getName()} wins!!!`;
+                Game.result.innerHTML = `${Game.player1.getName()} wins!!!`;
                 gameover = true;
             }
         });
         if ((currentOpositions.length + currentXpositions.length === 9) && (gameover === false)){
-            console.log('Tie Game!');
-            Display.result.innerHTML = `Tie Game!!!`;
+            Game.result.innerHTML = `Tie Game!!!`;
             gameover = true;
         }
         return gameover;
@@ -135,4 +128,4 @@ const Gameboard = (() => {
 
 //game flow
 
-Display.playBtn.addEventListener('click',Display.init);
+Game.playBtn.addEventListener('click',Game.init);
